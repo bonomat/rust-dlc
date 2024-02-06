@@ -34,8 +34,12 @@ jobs:
           path: target/debug/deps
           key: test-cache-${{ github.run_id }}-${{ github.run_number }}
       - uses: actions/checkout@v2
+      - id: set-matrix2
+        run: cargo test --no-run
+      - id: set-matrix3
+        run: echo "$(scripts/get_test_list.sh manager channel_execution ln_dlc)"
       - id: set-matrix
-        run: cargo test --no-run && echo "::set-output name=matrix::$(scripts/get_test_list.sh manager channel_execution ln_dlc)"
+        run: echo "::set-output name=matrix::$(scripts/get_test_list.sh manager channel_execution ln_dlc)"
   integration_tests:
     name: integration-tests
     needs: integration_tests_prepare
